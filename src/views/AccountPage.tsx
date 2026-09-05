@@ -1,26 +1,32 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { logout } from '../store/slices/authSlice';
-import { fetchProperties } from '../store/slices/propertiesSlice';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { logout } from "../store/slices/authSlice";
+import { fetchProperties } from "../store/slices/propertiesSlice";
 
 // ─── Avatar ───────────────────────────────────────────────────────────────────
 
-function UserAvatar({ name, size = 'lg' }: { name: string; size?: 'sm' | 'lg' }) {
+function UserAvatar({
+  name,
+  size = "lg",
+}: {
+  name: string;
+  size?: "sm" | "lg";
+}) {
   const initials = name
-    .split(' ')
+    .split(" ")
     .map((n) => n[0])
-    .join('')
+    .join("")
     .toUpperCase()
     .slice(0, 2);
 
   return (
     <div
       className={`flex items-center justify-center rounded-full bg-gradient-to-br from-emerald-700 to-emerald-900 text-white font-semibold select-none ${
-        size === 'lg' ? 'w-20 h-20 text-2xl' : 'w-9 h-9 text-sm'
+        size === "lg" ? "w-20 h-20 text-2xl" : "w-9 h-9 text-sm"
       }`}
     >
       {initials}
@@ -35,29 +41,31 @@ function StatCard({
   value,
   label,
   href,
-  color = 'emerald',
+  color = "emerald",
 }: {
   icon: string;
   value: number | string;
   label: string;
   href?: string;
-  color?: 'emerald' | 'ruby' | 'gold';
+  color?: "emerald" | "ruby" | "gold";
 }) {
   const colorMap = {
-    emerald: 'bg-emerald-50 text-emerald-700 border-emerald-100',
-    ruby: 'bg-ruby/5 text-ruby border-ruby/10',
-    gold: 'bg-amber-50 text-amber-700 border-amber-100',
+    emerald: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    ruby: "bg-ruby/5 text-ruby border-ruby/10",
+    gold: "bg-amber-50 text-amber-700 border-amber-100",
   };
 
   const content = (
     <div
       className={`group border rounded-xl p-6 transition-all hover:-translate-y-0.5 hover:shadow-md ${colorMap[color]} ${
-        href ? 'cursor-pointer' : ''
+        href ? "cursor-pointer" : ""
       }`}
     >
       <span className="text-2xl mb-3 block">{icon}</span>
       <p className="font-display text-3xl font-normal mb-1">{value}</p>
-      <p className="text-[12px] uppercase tracking-[0.15em] font-medium opacity-70">{label}</p>
+      <p className="text-[12px] uppercase tracking-[0.15em] font-medium opacity-70">
+        {label}
+      </p>
     </div>
   );
 
@@ -66,7 +74,13 @@ function StatCard({
 
 // ─── Section Header ───────────────────────────────────────────────────────────
 
-function SectionHeader({ title, action }: { title: string; action?: React.ReactNode }) {
+function SectionHeader({
+  title,
+  action,
+}: {
+  title: string;
+  action?: React.ReactNode;
+}) {
   return (
     <div className="flex items-center justify-between mb-6">
       <h2 className="font-display text-xl text-charcoal">{title}</h2>
@@ -100,7 +114,9 @@ function QuickAction({
         </p>
         <p className="text-[13px] text-stone mt-0.5">{description}</p>
       </div>
-      <span className="ml-auto text-stone/40 group-hover:text-emerald-700 transition-colors mt-0.5">→</span>
+      <span className="ml-auto text-stone/40 group-hover:text-emerald-700 transition-colors mt-0.5">
+        →
+      </span>
     </Link>
   );
 }
@@ -118,7 +134,15 @@ function EditProfileModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-charcoal/40 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-charcoal/40 backdrop-blur-sm"
+        onClick={onClose}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === "Escape") onClose();
+        }}
+      />
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 space-y-6">
         <div className="flex items-center justify-between">
           <h3 className="font-display text-2xl">Edit Profile</h3>
@@ -148,7 +172,9 @@ function EditProfileModal({
               disabled
               title="Email cannot be changed"
             />
-            <p className="text-[12px] text-stone mt-1.5">Email address cannot be changed.</p>
+            <p className="text-[12px] text-stone mt-1.5">
+              Email address cannot be changed.
+            </p>
           </div>
         </div>
 
@@ -183,26 +209,30 @@ export function AccountPage() {
   const shortlistIds = useAppSelector((s) => s.shortlist.ids);
   const { items, status } = useAppSelector((s) => s.properties);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'shortlist' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "shortlist" | "settings"
+  >("overview");
 
   useEffect(() => {
     if (!user) {
-      router.push('/login?from=' + encodeURIComponent('/account'));
+      router.push("/login?from=" + encodeURIComponent("/account"));
     }
   }, [user, router]);
 
   useEffect(() => {
-    if (status === 'idle') dispatch(fetchProperties());
+    if (status === "idle") dispatch(fetchProperties());
   }, [status, dispatch]);
 
   if (!user) return null;
 
-  const shortlisted = items.filter((p) => shortlistIds.includes(p.id)).slice(0, 3);
+  const shortlisted = items
+    .filter((p) => shortlistIds.includes(p.id))
+    .slice(0, 3);
   const memberSince = new Date().getFullYear();
 
   const handleLogout = () => {
     dispatch(logout());
-    router.push('/');
+    router.push("/");
   };
 
   return (
@@ -257,19 +287,25 @@ export function AccountPage() {
         <div className="bg-white border-b border-stone/10 sticky top-20 z-30 -mt-1">
           <div className="container-xl">
             <div className="flex gap-0">
-              {([
-                { key: 'overview', label: 'Overview', icon: '📊' },
-                { key: 'shortlist', label: `Shortlist (${shortlistCount})`, icon: '❤️' },
-                { key: 'settings', label: 'Settings', icon: '⚙️' },
-              ] as const).map((tab) => (
+              {(
+                [
+                  { key: "overview", label: "Overview", icon: "📊" },
+                  {
+                    key: "shortlist",
+                    label: `Shortlist (${shortlistCount})`,
+                    icon: "❤️",
+                  },
+                  { key: "settings", label: "Settings", icon: "⚙️" },
+                ] as const
+              ).map((tab) => (
                 <button
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key)}
                   id={`account-tab-${tab.key}`}
                   className={`flex items-center gap-2 px-6 py-4 text-[12px] uppercase tracking-[0.15em] font-semibold border-b-2 transition-all ${
                     activeTab === tab.key
-                      ? 'border-ruby text-charcoal'
-                      : 'border-transparent text-stone hover:text-charcoal'
+                      ? "border-ruby text-charcoal"
+                      : "border-transparent text-stone hover:text-charcoal"
                   }`}
                 >
                   <span>{tab.icon}</span>
@@ -282,7 +318,7 @@ export function AccountPage() {
 
         <div className="container-xl py-10">
           {/* ── Overview Tab ── */}
-          {activeTab === 'overview' && (
+          {activeTab === "overview" && (
             <div className="space-y-10 animate-in fade-in duration-200">
               {/* Stats */}
               <div>
@@ -330,7 +366,7 @@ export function AccountPage() {
                   <QuickAction
                     icon="❤️"
                     label="View Shortlist"
-                    description={`You have ${shortlistCount} saved propert${shortlistCount === 1 ? 'y' : 'ies'}`}
+                    description={`You have ${shortlistCount} saved propert${shortlistCount === 1 ? "y" : "ies"}`}
                     href="/shortlist"
                   />
                   <QuickAction
@@ -371,16 +407,24 @@ export function AccountPage() {
                       >
                         <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-emerald-100 to-emerald-200 flex-shrink-0 overflow-hidden">
                           {p.images?.[0] ? (
-                            <img src={p.images[0]} alt={p.title} className="w-full h-full object-cover" />
+                            <img
+                              src={p.images[0]}
+                              alt={p.title}
+                              className="w-full h-full object-cover"
+                            />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-2xl">🏡</div>
+                            <div className="w-full h-full flex items-center justify-center text-2xl">
+                              🏡
+                            </div>
                           )}
                         </div>
                         <div className="min-w-0">
                           <p className="font-semibold text-sm text-charcoal truncate group-hover:text-emerald-800 transition-colors">
                             {p.title}
                           </p>
-                          <p className="text-stone text-[12px] mt-0.5">{p.location}</p>
+                          <p className="text-stone text-[12px] mt-0.5">
+                            {p.location}
+                          </p>
                           <p className="text-emerald-700 font-semibold text-sm mt-2">
                             {p.currency} {p.price.toLocaleString()}
                           </p>
@@ -394,7 +438,7 @@ export function AccountPage() {
           )}
 
           {/* ── Shortlist Tab ── */}
-          {activeTab === 'shortlist' && (
+          {activeTab === "shortlist" && (
             <div className="animate-in fade-in duration-200">
               <SectionHeader
                 title="Your Saved Properties"
@@ -412,7 +456,9 @@ export function AccountPage() {
               {shortlistCount === 0 ? (
                 <div className="text-center py-24 border border-dashed border-stone/20 rounded-2xl">
                   <span className="text-5xl mb-4 block">❤️</span>
-                  <p className="font-display text-2xl mb-3">Your shortlist is empty</p>
+                  <p className="font-display text-2xl mb-3">
+                    Your shortlist is empty
+                  </p>
                   <p className="text-stone text-sm mb-8">
                     Save properties you love to compare them later.
                   </p>
@@ -438,12 +484,18 @@ export function AccountPage() {
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-4xl">🏡</div>
+                            <div className="w-full h-full flex items-center justify-center text-4xl">
+                              🏡
+                            </div>
                           )}
                         </div>
                         <div className="p-4">
-                          <p className="font-semibold text-sm truncate">{p.title}</p>
-                          <p className="text-stone text-[12px] mt-0.5">{p.location}</p>
+                          <p className="font-semibold text-sm truncate">
+                            {p.title}
+                          </p>
+                          <p className="text-stone text-[12px] mt-0.5">
+                            {p.location}
+                          </p>
                           <div className="flex items-center justify-between mt-3">
                             <p className="text-emerald-700 font-semibold">
                               {p.currency} {p.price.toLocaleString()}
@@ -461,7 +513,7 @@ export function AccountPage() {
           )}
 
           {/* ── Settings Tab ── */}
-          {activeTab === 'settings' && (
+          {activeTab === "settings" && (
             <div className="max-w-lg space-y-8 animate-in fade-in duration-200">
               <div>
                 <SectionHeader title="Account Settings" />
@@ -492,23 +544,31 @@ export function AccountPage() {
                       Preferences
                     </h3>
                     {[
-                      { label: 'Email notifications for new listings', checked: true },
-                      { label: 'Price drop alerts for saved properties', checked: true },
-                      { label: 'Weekly property digest', checked: false },
+                      {
+                        label: "Email notifications for new listings",
+                        checked: true,
+                      },
+                      {
+                        label: "Price drop alerts for saved properties",
+                        checked: true,
+                      },
+                      { label: "Weekly property digest", checked: false },
                     ].map((pref) => (
                       <label
                         key={pref.label}
                         className="flex items-center justify-between cursor-pointer group"
                       >
-                        <span className="text-sm text-charcoal">{pref.label}</span>
+                        <span className="text-sm text-charcoal">
+                          {pref.label}
+                        </span>
                         <div
                           className={`relative w-10 h-5 rounded-full transition-colors ${
-                            pref.checked ? 'bg-emerald-700' : 'bg-stone/20'
+                            pref.checked ? "bg-emerald-700" : "bg-stone/20"
                           }`}
                         >
                           <div
                             className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${
-                              pref.checked ? 'translate-x-5' : 'translate-x-0.5'
+                              pref.checked ? "translate-x-5" : "translate-x-0.5"
                             }`}
                           />
                         </div>
@@ -523,7 +583,9 @@ export function AccountPage() {
                     </h3>
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-charcoal">Sign out of your account</p>
+                        <p className="text-sm font-medium text-charcoal">
+                          Sign out of your account
+                        </p>
                         <p className="text-[12px] text-stone mt-0.5">
                           You'll need to sign in again to access your account.
                         </p>

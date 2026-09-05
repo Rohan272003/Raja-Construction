@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 export function Footer() {
   return (
@@ -10,32 +10,103 @@ export function Footer() {
             <span className="text-ruby-bright italic">Construction</span>
           </div>
           <p className="text-[13px] leading-relaxed text-ivory/60 max-w-[240px]">
-            A private portfolio of premier residential and commercial properties in Erode, built with trust and excellence.
+            A private portfolio of premier residential and commercial properties
+            in Erode, built with trust and excellence.
           </p>
         </div>
         <div>
           <div className="label-eyebrow !text-ruby-bright mb-4">Locations</div>
           <ul className="space-y-3 text-[13px] text-ivory/70">
-            <li><a href="/locations/thindal" className="hover:text-emerald-300 transition-colors">Thindal</a></li>
-            <li><a href="/locations/perundurai" className="hover:text-emerald-300 transition-colors">Perundurai</a></li>
-            <li><a href="/locations/gobichettipalayam" className="hover:text-emerald-300 transition-colors">Gobichettipalayam</a></li>
-            <li><a href="/locations/sathyamangalam" className="hover:text-emerald-300 transition-colors">Sathyamangalam</a></li>
-            <li><a href="/locations" className="hover:text-ruby-bright transition-colors text-[11px] uppercase tracking-wider font-semibold">View All Locations →</a></li>
+            <li>
+              <a
+                href="/locations/thindal"
+                className="hover:text-emerald-300 transition-colors"
+              >
+                Thindal
+              </a>
+            </li>
+            <li>
+              <a
+                href="/locations/perundurai"
+                className="hover:text-emerald-300 transition-colors"
+              >
+                Perundurai
+              </a>
+            </li>
+            <li>
+              <a
+                href="/locations/gobichettipalayam"
+                className="hover:text-emerald-300 transition-colors"
+              >
+                Gobichettipalayam
+              </a>
+            </li>
+            <li>
+              <a
+                href="/locations/sathyamangalam"
+                className="hover:text-emerald-300 transition-colors"
+              >
+                Sathyamangalam
+              </a>
+            </li>
+            <li>
+              <a
+                href="/locations"
+                className="hover:text-ruby-bright transition-colors text-[11px] uppercase tracking-wider font-semibold"
+              >
+                View All Locations →
+              </a>
+            </li>
           </ul>
         </div>
         <div>
           <div className="label-eyebrow !text-ruby-bright mb-4">Company</div>
           <ul className="space-y-3 text-[13px] text-ivory/70">
-            <li className="hover:text-emerald-300 transition-colors cursor-pointer">Our Story</li>
-            <li className="hover:text-emerald-300 transition-colors cursor-pointer">Engineers & Architects</li>
-            <li className="hover:text-emerald-300 transition-colors cursor-pointer">Projects</li>
-            <li className="hover:text-emerald-300 transition-colors cursor-pointer">Careers</li>
+            <li>
+              <button
+                type="button"
+                className="hover:text-emerald-300 transition-colors text-left w-full"
+              >
+                Our Story
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="hover:text-emerald-300 transition-colors text-left w-full"
+              >
+                Engineers & Architects
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="hover:text-emerald-300 transition-colors text-left w-full"
+              >
+                Projects
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="hover:text-emerald-300 transition-colors text-left w-full"
+              >
+                Careers
+              </button>
+            </li>
           </ul>
         </div>
         <div>
           <div className="label-eyebrow !text-ruby-bright mb-4">Contact</div>
           <ul className="space-y-3 text-[13px] text-ivory/70">
-            <li className="hover:text-emerald-300 transition-colors cursor-pointer">contact@rajaconstruction.com</li>
+            <li>
+              <a
+                href="mailto:contact@rajaconstruction.com"
+                className="hover:text-emerald-300 transition-colors"
+              >
+                contact@rajaconstruction.com
+              </a>
+            </li>
             <li>+91 (0424) 225-0148</li>
             <li>Erode District, Tamil Nadu</li>
           </ul>
